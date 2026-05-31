@@ -1,0 +1,1 @@
+curl -X PUT --digest -u admin:CenturiaUA -d "<SupplementLight><supplementLightMode>irLight</supplementLightMode><irLightBrightness>100</irLightBrightness></SupplementLight>" "http://192.168.1.12/ISAPI/Image/channels/1"

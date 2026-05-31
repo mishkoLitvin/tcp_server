@@ -1,0 +1,11 @@
+<OK>
+{
+    "name": "Zmij_2060",
+    "serial": "2060",
+    "type": "rover",
+    "ip": "192.168.111.30",
+    "port": 14730,
+    "software_version": "1.09",
+    "battery1_min": 52.0,
+    "battery1_max": 63.0
+}
