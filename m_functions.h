@@ -22,43 +22,6 @@ void splitString(std::string& input, char delimiter,
     }
 }
 
-void start_stream(std::string ip, std::string port, bool on){
-    if(stream_thread != nullptr || !on){
-        std::string kill_cmd = "kill $(pgrep -f 'port=" + port + "')";
-        std::system(kill_cmd.data());
-
-        if(stream_thread != nullptr){
-            if(stream_thread->joinable()){
-                stream_thread->join();
-            }
-            delete stream_thread;
-            stream_thread = nullptr;
-        }
-    }
-    if(!on){
-        return;
-    }
-    //command = "/usr/bin/gst-launch-1.0 -v v4l2src device=/dev/video0 ";
-    //command += "! \"image/jpeg,width=720,height=480,framerate=25/1\" ";
-    //command += "! rtpjpegpay ";
-    //command += "! udpsink ";
-    command = "gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! autovideosink";
-    command += "host=" + ip;
-    command += "port=" + port;
-
-    //    command = "/usr/bin/gst-launch-1.0 rtspsrc location='rtsp://admin:CenturiaUA@192.168.1.11:554/cam/realmonitor?channel=1&subtype=1'";
-    //    command += " latency=0 protocols=udp ! rtph264depay ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink";
-    //    command += " host=" + ip;
-    //    command += " port=" + port;
-    //    command += " sync=false async=false";
-    //    command += " 2>&1";
-    stream_thread = new std::thread([](){
-        system(command.data());
-    });
-    stream_thread->detach();
-
-}
-
 std::string run(const std::string& command, bool no_sh = false){
     std::string l_command(command);
     std::string data;
@@ -80,6 +43,43 @@ std::string run(const std::string& command, bool no_sh = false){
         pclose(stream);
     }
     return data;
+}
+
+const std::string C_stream_link = "data/stream.conf";
+
+void start_stream(std::string ip, std::string port, bool on){
+    if(stream_thread != nullptr || !on){
+        std::string kill_cmd = "kill $(pgrep -f 'port=" + port + "')";
+        std::system(kill_cmd.data());
+
+        if(stream_thread != nullptr){
+            if(stream_thread->joinable()){
+                stream_thread->join();
+            }
+            delete stream_thread;
+            stream_thread = nullptr;
+        }
+    }
+    if(!on){
+        return;
+    }
+
+    std::string stream_link = run("cat "+C_stream_link, true);
+
+
+    command = "/usr/bin/gst-launch-1.0 rtspsrc location='";
+    command += stream_link;
+    command +=  "'";
+    command += " latency=0 protocols=udp ! rtph264depay ! h264parse ! rtph264pay config-interval=1 pt=96 ! udpsink";
+    command += " host=" + ip;
+    command += " port=" + port;
+    command += " sync=false async=false";
+    command += " 2>&1";
+    stream_thread = new std::thread([](){
+        system(command.data());
+    });
+    stream_thread->detach();
+
 }
 
 void handle_command(const std::string& command){
