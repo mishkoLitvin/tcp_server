@@ -1,1 +1,1 @@
-curl -g --digest -u admin:CenturiaUA "http://192.168.1.11/cgi-bin/configManager.cgi?action=setConfig&Lighting[0][0].Mode=Auto"
+curl -X PUT --digest -u admin:CenturiaUA -d "<SupplementLight><supplementLightMode>irLight</supplementLightMode><irLightBrightness>100</irLightBrightness></SupplementLight>" "http://192.168.1.11/ISAPI/Image/channels/1"
