@@ -1,1 +1,6 @@
-curl -X PUT --digest -u admin:CenturiaUA -d "<IrcutFilter><IrcutFilterType>day</IrcutFilterType></IrcutFilter>" "http://192.168.1.12/ISAPI/Image/channels/1"
+#Dahua
+#curl -g --digest -u admin:CenturiaUA "http://192.168.1.12/cgi-bin/configManager.cgi?action=setConfig&VideoInMode[0].Config[0]=2"
+#UNV
+curl -g --digest -u admin:Centuria2025! -X PUT -H 'Content-Type: application/json' -d  '{"Mode":0,"CompensationLevel":0,"LinearAntiFlicker":5,"HLCSensitivity":0,"IrisInfo":{"Iris":0,"MinIris":0,"MaxIris":0},"ShutterInfo":{"Shutter":100,"MinShutter":100000,"MaxShutter":30,"IsEnableSlowShutter":0,"SlowestShutter":12},"GainInfo":{"Gain":0,"MinGain":0,"MaxGain":100},"WideDynamic":{"Mode":0,"Level":5,"OpenSensitivity":5,"CloseSensitivity":5,"AntiFlicker":0},"Metering":{"Mode":0,"RefBrightness":50,"HoldTime":5,"Area":{"TopLeft":{"X":25,"Y":25},"BottomRight":{"X":75,"Y":75}}},"DayNight":{"Mode":1,"Sensitivity":5,"Time":3,"Start":"00:00:00","End":"00:00:00"}}' "http://192.168.1.12/LAPI/V1.0/Channels/0/Image/Advanced/Exposure/Video"
+#Hikvision
+#curl -X PUT --digest -u admin:CenturiaUA -d "<IrcutFilter><IrcutFilterType>day</IrcutFilterType></IrcutFilter>" "http://192.168.1.12/ISAPI/Image/channels/1"
